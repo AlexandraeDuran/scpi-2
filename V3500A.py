@@ -50,13 +50,14 @@ class V3500A():
 
     def set_freq(self, freq):
         """ The the operating frequency in MHz. """
-        self._set("FREQ {:d}\n".format(freq))
+        self._set("FREQ {}\n".format(freq))
 
     def set_averaging(self, avg=0):
         """ Sets the number of measurements taken during each measurement
         cycle.
 
-        Number of measurements taken is given by (2**avg).
+        The number of measurements taken is given by (2**avg), where avg is an
+        integer between 0 (no averaging) and 5 (32 measurements).
         """
         self._set("SETAVG {:d}\n".format(avg))
 
