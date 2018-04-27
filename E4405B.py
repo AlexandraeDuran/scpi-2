@@ -12,12 +12,22 @@ class E4405B:
         self.gpib.write("*IDN?\n".encode())
         return self.gpib.readline().decode()
 
+    def find_peak(self, f0, freq, power, window=5.):
+        """ Returns the index of the point with the highest power in the
+        frequency range [f0-window/2.0, f0+window/2.0]. """
+
+        lower_idx = np.argmin(np.abs(freq-(f0-window/2.)))
+        upper_idx = np.argmin(np.abs(freq-(f0+window/2.)))
+
+        peak = np.argmax(power[lower_idx:(upper_idx+1)]) + lower_idx
+        return peak
+
     def get_sweep_axis(self):
         """ Returns a numpy array with the current frequency axis. """
-        pts = sa.get_sweep_pts()
-        start = sa.get_sweep_start()
-        stop = sa.get_sweep_stop()
-        scale = sa.get_sweep_scale()
+        pts = self.get_sweep_pts()
+        start = self.get_sweep_start()
+        stop = self.get_sweep_stop()
+        scale = self.get_sweep_scale()
 
         if scale == "lin":
             return np.linspace(start, stop, pts)
