@@ -9,6 +9,11 @@ class Synth:
      """
      self.stream = stream
 
+    def identify(self):
+        """ Return a device ID string. """
+        self.stream.write("*IDN?\n".encode())
+        return self.stream.readline().decode()
+
     def set_freq(self, freq):
         """ Program the device to a frequency in Hz. """
         self.stream.write("FREQ {} HZ\n".format(freq).encode())
